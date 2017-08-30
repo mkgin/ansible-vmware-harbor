@@ -3,7 +3,7 @@
 
 
 # make sure we have docker and docker-compose
-- include: docker-compose.yml
+#- include: docker-compose.yml
 
 # install harbor
 - include: harbor-install.yml

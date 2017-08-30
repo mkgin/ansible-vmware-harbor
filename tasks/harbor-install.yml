@@ -1,29 +1,43 @@
 #
 ---
-
-
-
-#harbor_install_upload_localcopy_of_installer=/tmp/harbor-offline-installer-v1.2.0-rc3.tgz
-
-
 # create install dirs
-- name: create install dirs
-  file:
+- debug: var=harbor_install_tmp
+- debug: var=harbor_install_dir
+
+- name: create install dir1
+  file: 
+    path: '{{ harbor_install_tmp }}'
     state: directory
-    path: 
-      - "{{ harbor_install_tmp }}"
-      - "{{ harbor_install_dir }}"
+
+- name: create install dir2
+  file:
+    path: '{{ harbor_install_dir }}'
+    state: directory
 
 # download or upload tarball
 
 - name: upload local copy
   copy: 
-    src: "{{ harbor_install_upload_localcopy_of_installer }}"
-    dest: "{{ harbor_install_download }}/{{ harbor_install_downloaded_tgz }}"
+    src: '{{ harbor_install_upload_localcopy_of_installer }}'
+    dest: '{{ harbor_install_tmp }}/{{ harbor_install_tgz }}'
 
 # unpack 
-
+- name: unpack harbor_install_tgz
+  unarchive: 
+    remote_src: True
+    src: '{{ harbor_install_tmp }}/{{ harbor_install_tgz }}'
+    dest: '{{ harbor_install_dir }}'
 
 # config template
+- name: upload harbor.cfg from template
+  template: 
+    src: harbor.cfg.j2
+    dest: '{{ harbor_install_dir }}/harbor/harbor.cfg'
 
 # run installer
+
+- name: run harbor install script
+  shell: './install.sh > {{ harbor_install_dir }}/harbor_install_log.txt'
+  args:
+    chdir: '{{ harbor_install_dir }}/harbor'
+    creates: '{{ harbor_install_dir }}/harbor_install_log.txt'

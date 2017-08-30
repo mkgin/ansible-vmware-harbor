@@ -3,10 +3,10 @@
 #
 # were to download an unpack installer
 harbor_install_tmp: /tmp/harbor
+harbor_install_dir: /tmp/harbor_install
 # current non rc
 harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
-harbor_install_downloaded_tgz: harbor-installer.tgz
-harbor_install_dir: /tmp/harbor_install
+harbor_install_tgz: harbor-installer.tgz
 
 # If true, do not try to install docker or docker-compose with yum
 harbor_install_assume_deps_installed: False
