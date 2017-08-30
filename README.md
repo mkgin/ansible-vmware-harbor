@@ -3,6 +3,8 @@ vmware-harbor
 
 An Ansible(tm) role Installs Harbor(tm) from VMware(tm) as the dependancies from Docker(tm).
 
+* http://vmware.github.io/harbor/
+
 Work in progress. Currently deploys from a local file, tested on CentOS 7
 
 Requirements
@@ -13,23 +15,47 @@ Requirements
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Some defaults:
 
+Installation sources / parameters:
+
+harbor_install_tmp: /tmp/harbor
+harbor_install_dir: /tmp/harbor_install
+harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
+harbor_install_tgz: harbor-installer.tgz
+harbor_install_assume_deps_installed: False
+harbor_install_upload_localcopy_of_installer:  #if set it installs from this address
+
+These end up in harbor.cfg
+
+harbor_hostname: localhost
+harbor_ui_url_protocol: http
+harbor_db_password: root123
+harbor_customize_crt: on
+harbor_secretkey_path: /data
+harbor_admin_password: Harbor12345
+harbor_auth_mode: db_auth
+harbor_self_registration: on
+harbor_project_creation_restriction: adminonly
+harbor_verify_remote_cert: on
 
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None?
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Install using a locally hosted copy of the installation tar:
 
     - hosts: servers
+      name: install VMWare Harbor registry
       roles:
-         - { role: username.rolename, x: 42 }
+        - mkgin.vmware-harbor
+      vars:
+        - harbor_install_upload_localcopy_of_installer: /tmp/harbor-offline-installer-v1.2.0-rc3.tgz
 
 License
 -------
