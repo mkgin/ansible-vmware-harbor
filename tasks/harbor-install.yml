@@ -1,0 +1,29 @@
+#
+---
+
+
+
+#harbor_install_upload_localcopy_of_installer=/tmp/harbor-offline-installer-v1.2.0-rc3.tgz
+
+
+# create install dirs
+- name: create install dirs
+  file:
+    state: directory
+    path: 
+      - {{ harbor_install_tmp }}
+      - {{ harbor_install_dir }}
+
+# download or upload tarball
+
+- name: upload local copy
+  copy: 
+    src: {{ harbor_install_upload_localcopy_of_installer }}
+    dest: "{{ harbor_install_download }}/{{ harbor_install_downloaded_tgz }}"
+
+# unpack 
+
+
+# config template
+
+# run installer

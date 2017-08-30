@@ -1,2 +1,39 @@
 ---
 # defaults file for mkgin.vmware-harbor
+#
+# were to download an unpack installer
+harbor_install_tmp: /tmp/harbor
+# current non rc
+harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
+harbor_install_downloaded_tgz: harbor-installer.tgz
+harbor_install_dir: /tmp/harbor_install
+
+# If true, do not try to install docker or docker-compose with yum
+harbor_install_assume_deps_installed: False
+
+#DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
+# well set the safe default for testing
+harbor_hostname: localhost
+#The protocol for accessing the UI and token/notification service
+harbor_ui_url_protocol: http
+harbor_db_password: root123
+harbor_customize_crt: on
+#The path of cert and key files for nginx
+#harbor_ssl_cert: 
+#harbor_ssl_cert_key:
+harbor_secretkey_path: /data
+#harbor_email_server:
+#harbor_email_server_port:
+#harbor_email_identity:
+#harbor_email_username:
+#harbor_email_password:
+#harbor_email_from:
+#harbor_email_ssl:
+harbor_admin_password: Harbor12345
+harbor_auth_mode: db_auth
+#
+harbor_self_registration: on
+# to be safe admin only
+harbor_project_creation_restriction: adminonly
+# safe I guess
+harbor_verify_remote_cert: on

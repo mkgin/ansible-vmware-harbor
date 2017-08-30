@@ -1,0 +1,36 @@
+---
+# tasks file for mkgin.vmware-harbor
+
+
+# install with yum if...
+
+- name: add docker group
+  action: group name=docker state=present
+  
+- name: add docker repo
+  action: yum_repository name=docker description='Docker official repo'
+    baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+    gpgkey=https://yum.dockerproject.org/gpg
+    gpgcheck=yes
+    enabled=yes
+    state=present
+
+- name: install deps
+  action: yum name="{{ item }}" state=latest update_cache=yes
+  with_items:
+    - git
+    - python-pycurl
+    - docker-python
+
+- name: install docker and docker compose
+  action: yum name="{{ item }}" state=latest update_cache=yes
+  with_items:
+    - docker-engine
+    - docker-compose
+#  notify: service docker start/enable
+
+- name: Enable and restart docker in systemd
+  systemd:
+    name: docker
+    enabled: yes
+    state: restarted
