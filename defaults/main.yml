@@ -7,9 +7,10 @@ harbor_install_dir: /tmp/harbor_install
 # current non rc
 harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
 harbor_install_tgz: harbor-installer.tgz
-
+harbor_install_https_self_signed: False
 # If true, do not try to install docker or docker-compose with yum
-harbor_install_assume_deps_installed: False
+# set to true to skip this step for testing
+harbor_install_skip_docker_compose: False
 
 #DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
 # well set the safe default for testing

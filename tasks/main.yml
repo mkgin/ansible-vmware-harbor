@@ -1,9 +1,22 @@
 ---
 # tasks file for mkgin.vmware-harbor
 
+# pre install dirs and paths
+- include: harbor-data-directory.yml
+
+#- name: "harbor_install_skip_docker_compose compose ?"
+-  debug: var=harbor_install_skip_docker_compose, verbosity=2
 
 # make sure we have docker and docker-compose
-#- include: docker-compose.yml
+- include: docker-compose.yml
+  when: harbor_install_skip_docker_compose == False
+
+#- name: "harbor_install_skip_docker_compose compose ?"
+- debug: var=harbor_install_https_self_signed, verbosity=2
+
+- include: https_self_signed.yml
+  when: harbor_install_https_self_signed == True
+# otherwise we assume the certificate is there and ok if configured
 
 # install harbor
 - include: harbor-install.yml
