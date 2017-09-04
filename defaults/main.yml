@@ -17,11 +17,12 @@ harbor_install_skip_docker_compose: False
 harbor_hostname: localhost
 #The protocol for accessing the UI and token/notification service
 harbor_ui_url_protocol: http
-harbor_db_password: root123
+harbor_db_password: root1234
 harbor_customize_crt: on
 #The path of cert and key files for nginx
 #harbor_ssl_cert: 
 #harbor_ssl_cert_key:
+harbor_ssl_subject: "/O=My Harbor Server/OU=Self signed/CN=test"
 harbor_secretkey_path: /data
 #harbor_email_server:
 #harbor_email_server_port:
@@ -32,7 +33,7 @@ harbor_secretkey_path: /data
 #harbor_email_ssl:
 harbor_admin_password: Harbor12345
 harbor_auth_mode: db_auth
-#
+# allow self registration
 harbor_self_registration: on
 # to be safe admin only
 harbor_project_creation_restriction: adminonly

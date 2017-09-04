@@ -3,28 +3,15 @@
   file: 
     state: directory
     path: "{{ harbor_ssl_cert_key | dirname }}"
-# in case the cert dir is somewhere else...
+# in case the cert dir is somewhere else
 - name: check or create ssl cert dir
   file: 
     state: directory
     path: '{{ harbor_ssl_cert | dirname }}'
 
-# required for openssl_privatekey and openssl_publickey
-#- name: install latest pyOpenSSL
-#  yum:
-#    name: pyOpenSSL
-#    state: latest
-
-#- openssl_privatekey:
-#    path: '{{ harbor_ssl_cert_key }}'
-
-# "msg": "You need to have PyOpenSSL>=16.0.0 to generate public keys"
-#
-# what a P.I.T.A. ... command line ... 
-#
-#- openssl_publickey:
-#    path: '{{ harbor_ssl_cert }}'
-#    privatekey_path: '{{ harbor_ssl_cert_key }}'
-#
-#  
-#openssl req -newkey rsa:2048 -nodes -keyout server.key -subj "/O=dodgy bros/CN=trustme" -key server.key -new  -x509 -days 10 -out server.crt
+# maybe set up alternate names but let's not make it too complicated better to make certs
+# with another role
+- name: generate self signed cert with openssl
+  command: openssl req -newkey rsa:4096 -nodes  -sha256 -keyout '{{ harbor_ssl_cert_key }}' -subj '{{ harbor_ssl_self_subject }}' -new  -x509 -days '{{ harbor_ssl_self_days }}' -out '{{ harbor_ssl_cert }}'
+  args:
+    creates: '{{ harbor_ssl_cert }}' #dont write over a cert

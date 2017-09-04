@@ -10,12 +10,7 @@ Work in progress. Currently deploys from a local file, tested on CentOS 7
 Requirements
 ------------
 
-If generating certificates, python-pyOpenSSL ( >=16.0.0 ) is needed on the installed host, and Ansible 2.3 (for openssl_privatekey, openssl_publickey)
-
-This is isn't readily available for CentOS 7 and is not in EPEL. Some kind of multi level dependancy hell that makes me think signing a cert on the command line would be easier.
-
-Will drop this dependancy... and use openssl to make a self signed cert...
-
+openssl needed for self signed certificates
 
 Role Variables
 --------------
@@ -24,17 +19,23 @@ Some defaults:
 
 Installation sources / parameters:
 
-  - installation:
-    harbor_install_tmp: /tmp/harbor
-    harbor_install_dir: /tmp/harbor_install
-    harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
-    harbor_install_tgz: harbor-installer.tgz
-    harbor_install_assume_deps_installed: False
-    harbor_install_upload_localcopy_of_installer:  #if set it installs from this address
+```
+harbor_install_tmp: /tmp/harbor
+harbor_install_dir: /tmp/harbor_install
+harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
+harbor_install_tgz: harbor-installer.tgz
+harbor_install_upload_localcopy_of_installer:  #if set it installs from this address
+harbor_install_skip_docker_compose: 'False' # speed up testing / or Docker + Docker Compose already installed
+harbor_ssl_self_days:     # valid days for self signed certificate
+harbor_ssl_self_subject:  # dn for  self signed certificate
+harbor_ssl_cert:          # certificate location
+harbor_ssl_cert_key:      # private key location 
 
-  - harbor.cfg
-
-    harbor_hostname: localhost
+    
+```
+ends up in  harbor.cfg
+```
+    harbor_hostname: localhost  # shouldn't be localhost... but safer for testing
     harbor_ui_url_protocol: http
     harbor_db_password: root123
     harbor_customize_crt: on
@@ -44,6 +45,7 @@ Installation sources / parameters:
     harbor_self_registration: on
     harbor_project_creation_restriction: adminonly
     harbor_verify_remote_cert: on
+```
 
 Dependencies
 ------------
@@ -61,6 +63,13 @@ Install using a locally hosted copy of the installation tar:
         - mkgin.vmware-harbor
       vars:
         - harbor_install_upload_localcopy_of_installer: /tmp/harbor-offline-installer-v1.2.0-rc3.tgz
+        - harbor_install_https_self_signed: True # need to add check
+        - harbor_ui_url_protocol: https
+        - harbor_ssl_cert: /data/cert/server.crt
+        - harbor_ssl_cert_key: /data/cert/server.key
+        - harbor_install_upload_localcopy_of_installer: /tmp/harbor-offline-installer-v1.2.0-rc3.tgz
+        - harbor_install_skip_docker_compose: 'True' # speed up testing
+        - harbor_install_assume_deps_installed: 'True' # need to add check
 
 License
 -------
@@ -70,4 +79,5 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+https://github.com/mkgin/ansible-vmware-harbor
+
