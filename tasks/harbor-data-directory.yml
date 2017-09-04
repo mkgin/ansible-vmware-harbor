@@ -1,0 +1,9 @@
+---
+# check these dirs exist and create...
+# if you would like the information to be on a volume, create it before 
+
+- name: 'create or check data path at: {{ harbor_secretkey_path }}'
+  file: 
+    path: '{{ harbor_secretkey_path }}'
+    state: directory
+    # check necessary mode , owners

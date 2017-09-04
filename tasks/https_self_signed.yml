@@ -1,0 +1,30 @@
+---
+- name: check or create ssl key dir
+  file: 
+    state: directory
+    path: "{{ harbor_ssl_cert_key | dirname }}"
+# in case the cert dir is somewhere else...
+- name: check or create ssl cert dir
+  file: 
+    state: directory
+    path: '{{ harbor_ssl_cert | dirname }}'
+
+# required for openssl_privatekey and openssl_publickey
+#- name: install latest pyOpenSSL
+#  yum:
+#    name: pyOpenSSL
+#    state: latest
+
+#- openssl_privatekey:
+#    path: '{{ harbor_ssl_cert_key }}'
+
+# "msg": "You need to have PyOpenSSL>=16.0.0 to generate public keys"
+#
+# what a P.I.T.A. ... command line ... 
+#
+#- openssl_publickey:
+#    path: '{{ harbor_ssl_cert }}'
+#    privatekey_path: '{{ harbor_ssl_cert_key }}'
+#
+#  
+#openssl req -newkey rsa:2048 -nodes -keyout server.key -subj "/O=dodgy bros/CN=trustme" -key server.key -new  -x509 -days 10 -out server.crt
