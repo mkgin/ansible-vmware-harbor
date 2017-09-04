@@ -14,6 +14,8 @@ If generating certificates, python-pyOpenSSL ( >=16.0.0 ) is needed on the insta
 
 This is isn't readily available for CentOS 7 and is not in EPEL. Some kind of multi level dependancy hell that makes me think signing a cert on the command line would be easier.
 
+Will drop this dependancy... and use openssl to make a self signed cert...
+
 
 Role Variables
 --------------
@@ -22,25 +24,26 @@ Some defaults:
 
 Installation sources / parameters:
 
-  harbor_install_tmp: /tmp/harbor
-  harbor_install_dir: /tmp/harbor_install
-  harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
-  harbor_install_tgz: harbor-installer.tgz
-  harbor_install_assume_deps_installed: False
-  harbor_install_upload_localcopy_of_installer:  #if set it installs from this address
+  - installation:
+    harbor_install_tmp: /tmp/harbor
+    harbor_install_dir: /tmp/harbor_install
+    harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
+    harbor_install_tgz: harbor-installer.tgz
+    harbor_install_assume_deps_installed: False
+    harbor_install_upload_localcopy_of_installer:  #if set it installs from this address
 
-These end up in harbor.cfg
+  - harbor.cfg
 
-  harbor_hostname: localhost
-  harbor_ui_url_protocol: http
-  harbor_db_password: root123
-  harbor_customize_crt: on
-  harbor_secretkey_path: /data
-  harbor_admin_password: Harbor12345
-  harbor_auth_mode: db_auth
-  harbor_self_registration: on
-  harbor_project_creation_restriction: adminonly
-  harbor_verify_remote_cert: on
+    harbor_hostname: localhost
+    harbor_ui_url_protocol: http
+    harbor_db_password: root123
+    harbor_customize_crt: on
+    harbor_secretkey_path: /data
+    harbor_admin_password: Harbor12345
+    harbor_auth_mode: db_auth
+    harbor_self_registration: on
+    harbor_project_creation_restriction: adminonly
+    harbor_verify_remote_cert: on
 
 Dependencies
 ------------
