@@ -40,4 +40,6 @@
   shell: './install.sh > {{ harbor_install_dir }}/harbor_install_log.txt'
   args:
     chdir: '{{ harbor_install_dir }}/harbor'
+    # don't reinstall / figure out what when wrong and delete or move the logfile
     creates: '{{ harbor_install_dir }}/harbor_install_log.txt'
+
