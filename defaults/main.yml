@@ -3,7 +3,8 @@
 #
 # were to download an unpack installer
 harbor_install_tmp: /tmp/harbor
-harbor_install_dir: /tmp/harbor_install
+# where the installer ends up ( should remain after reboot so not tmp)
+harbor_install_dir: /opt/harbor_install
 # current non rc
 harbor_install_download: https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
 harbor_install_tgz: harbor-installer.tgz
@@ -12,8 +13,8 @@ harbor_install_https_self_signed: False
 # set to true to skip this step for testing
 harbor_install_skip_docker_compose: False
 
-#DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-# well set the safe default for testing
+# DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
+# set the conservative safe default for testing, must be set to deply
 harbor_hostname: localhost
 #The protocol for accessing the UI and token/notification service
 harbor_ui_url_protocol: http
@@ -22,7 +23,8 @@ harbor_customize_crt: on
 #The path of cert and key files for nginx
 #harbor_ssl_cert: 
 #harbor_ssl_cert_key:
-harbor_ssl_subject: "/O=My Harbor Server/OU=Self signed/CN=test"
+harbor_ssl_self_days: 100
+harbor_ssl_self_subject: "/O=My Harbor Server/OU=Self signed/CN=test"
 harbor_secretkey_path: /data
 #harbor_email_server:
 #harbor_email_server_port:

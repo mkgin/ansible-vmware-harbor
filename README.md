@@ -35,7 +35,7 @@ harbor_ssl_cert_key:      # private key location
 ```
 ends up in  harbor.cfg
 ```
-    harbor_hostname: localhost  # shouldn't be localhost... but safer for testing
+    harbor_hostname: localhost  # should not be localhost... registry might not be accessible from outside
     harbor_ui_url_protocol: http
     harbor_db_password: root123
     harbor_customize_crt: on
@@ -67,9 +67,6 @@ Install using a locally hosted copy of the installation tar:
         - harbor_ui_url_protocol: https
         - harbor_ssl_cert: /data/cert/server.crt
         - harbor_ssl_cert_key: /data/cert/server.key
-        - harbor_install_upload_localcopy_of_installer: /tmp/harbor-offline-installer-v1.2.0-rc3.tgz
-        - harbor_install_skip_docker_compose: 'True' # speed up testing
-        - harbor_install_assume_deps_installed: 'True' # need to add check
 
 License
 -------
@@ -80,4 +77,3 @@ Author Information
 ------------------
 
 https://github.com/mkgin/ansible-vmware-harbor
-
